@@ -14,7 +14,7 @@
                         <div class="d-none d-md-block d-lg-inline-block"></div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="{{route('user.profile')}}"><i data-feather="user"></i> Account</a>
+                        <a class="dropdown-item" href="{{route('user_profile')}}"><i data-feather="user"></i> Account</a>
 
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{route('user.logout')}}"><i data-feather="log-out"></i>

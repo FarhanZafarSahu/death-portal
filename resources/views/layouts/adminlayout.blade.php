@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Voler Admin Dashboard</title>
-    
+<meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Dashboard - Voler Admin Dashboard</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
     <link rel="stylesheet" href="{{asset('assets/css/bootstrap.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendors/chartjs/Chart.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.svg')}}" type="image/x-icon">
+    <!-- All cdns for Form.io -->
+    <link rel="stylesheet" href="https://cdn.form.io/js/formio.full.min.css">
+    <script src="https://cdn.form.io/js/formio.full.min.js"></script>
 </head>
     @include('admin.header')
     <div id="main">

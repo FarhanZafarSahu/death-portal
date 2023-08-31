@@ -29,8 +29,14 @@ class AdminController extends Controller
         return view('admin.forms.list', compact('forms'));
     }
 
+    public function show()
+    {
+        return view('admin.forms.add');
+    }
+
     public function storeForm(Request $request)
     {
+        return response()->json($request['components'][0]);
         try{
             $form = Form::create([
                 'name' => $request->name,

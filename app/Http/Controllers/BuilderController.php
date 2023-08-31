@@ -16,11 +16,6 @@ class BuilderController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'definition' => 'required|json'
-        ]);
-
-        // You can then save this to your DB, a file,
-        // or whatever you're using for persistence.
-        dump($data['definition']);
-    }}
+        return response()->json($request['components'][0]);
+    }
+}

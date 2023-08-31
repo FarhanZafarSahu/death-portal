@@ -7,7 +7,7 @@
                     <h4 class="card-title">All Forms</h4>
                 </div>
                 <div class="card-content">
-                    <a href="" class="btn btn-primary ml-4">Add New</a>
+                    <a href="{{route('add.forms')}}" class="btn btn-primary ml-4">Add New</a>
                     <!-- table striped -->
                     <div class="table-responsive">
                         <table class="table table-striped mb-0">

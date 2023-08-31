@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formio Builder</title>
+   <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Dashboard - NiceAdmin Bootstrap Template</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
     <!-- Include Formio CSS and JS libraries -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
@@ -16,7 +19,7 @@
 <body>
 <!-- Container for Formio Builder -->
 <div id="builder"></div>
-
+<button id="submitButton">Submit </button>
 <script>
     // Initialize Formio builder
     Formio.builder(document.getElementById('builder'), {}, {
@@ -100,8 +103,28 @@
             ]
         }
     }).then(function(builder) {
-        builder.on('saveComponent', function() {
+        const submitButton = document.getElementById('submitButton');
+        submitButton.addEventListener('click', function() {
+            
+            const formData = builder.schema;
+            const csrfToken = '{{ csrf_token() }}';
+            formData._token = csrfToken;
             console.log(builder.schema);
+            // Send an AJAX request
+            fetch('/submit-form', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         });
     });
 </script>

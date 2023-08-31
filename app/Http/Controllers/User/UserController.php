@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Auth;
 
 class UserController extends Controller
 {
@@ -29,7 +30,15 @@ class UserController extends Controller
 
     public function specific_user(Request $request, $id)
     {
-        
+        return $id;
         return view('user.users.list');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
     }
 }
