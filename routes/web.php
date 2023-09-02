@@ -39,10 +39,10 @@ Route::group(['prefix' => 'admin','middleware' => 'auth','is_admin'], function (
     Route::get('/forms', [AdminController::class, 'forms'])->name('admin.forms');
     Route::get('/forms/add', [AdminController::class, 'show'])->name('add.forms');
     //when we placed it outside middleware then it works perfectlly but when i placed in within middleware then it given error
-    Route::post('/submit/form', [AdminController::class, 'storeForm']); 
     Route::get('/logout', [LoginController::class, 'logout'])->name('admin.logout');
 
 });
+Route::post('/submit/form', [AdminController::class, 'storeForm']); 
 
 /*User Routes*/
 Route::group(['prefix' => 'user','middleware' => 'auth'], function () {

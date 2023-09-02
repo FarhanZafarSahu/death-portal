@@ -10,6 +10,11 @@ class Form extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+    protected $fillable = [
+        'name',
+        'visibility',
+        'status'
+    ];
 
     public function formFields()
     {
