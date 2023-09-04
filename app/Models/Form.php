@@ -20,4 +20,9 @@ class Form extends Model
     {
         return $this->hasMany(FormField::class);
     }
+
+    public function userFormdata()
+    {
+        return $this->hasMany(UserFormData::class);
+    }
 }

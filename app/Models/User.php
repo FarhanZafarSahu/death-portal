@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Profile::class);
     }
+
+    public function userFormdata()
+    {
+        return $this->hasMany(UserFormData::class);
+    }
 }

@@ -38,7 +38,7 @@ class AdminController extends Controller
 
     public function storeForm(Request $request)
     {
-        // return response()->json('Form Created Successfully');
+        // return response()->json(['message'=>$request->all()]);
         try{
             DB::beginTransaction();
 

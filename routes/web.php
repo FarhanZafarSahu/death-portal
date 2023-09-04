@@ -34,24 +34,27 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 /*Admin Routes*/
 Route::group(['prefix' => 'admin','middleware' => 'auth','is_admin'], function () {
 
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
-    Route::get('/forms', [AdminController::class, 'forms'])->name('admin.forms');
-    Route::get('/forms/add', [AdminController::class, 'show'])->name('add.forms');
-    //when we placed it outside middleware then it works perfectlly but when i placed in within middleware then it given error
-    Route::get('/logout', [LoginController::class, 'logout'])->name('admin.logout');
+    Route::get('/dashboard',          [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/users',              [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/forms',              [AdminController::class, 'forms'])->name('admin.forms');
+    Route::get('/forms/add',          [AdminController::class, 'show'])->name('add.forms');
+    Route::get('/forms/{id}',         [DynamicFormsStorageController::class, 'show'])->name('form.detail');
+    Route::post('/forms/update/{id}', [DynamicFormsStorageController::class, 'update'])->name('form.update');
+    Route::get('/forms/delete/{id}',  [DynamicFormsStorageController::class, 'delete'])->name('form.delete');
+    Route::get('/logout',             [LoginController::class, 'logout'])->name('admin.logout');
 
 });
-Route::post('/submit/form', [AdminController::class, 'storeForm']); 
+    Route::post('/submit/form',       [AdminController::class, 'storeForm']); 
 
 /*User Routes*/
 Route::group(['prefix' => 'user','middleware' => 'auth'], function () {
 
     Route::get('/dashboard', [UserController::class, 'index'])->name('user.dashboard');
     Route::get('/form/{id}', [UserController::class, 'form'])->name('user.form');
-    Route::get('/all',      [UserController::class, 'show_all'])->name('all.user');
-    Route::get('/profile', [UserController::class, 'profile'])->name('user_profile');
-    Route::get('/logout', [UserController::class, 'logout'])->name('user.logout');
+    Route::post('/form/submit/{id}', [UserController::class, 'submitform'])->name('user.form.submit');
+    Route::get('/all',       [UserController::class, 'show_all'])->name('all.user');
+    Route::get('/profile',   [UserController::class, 'profile'])->name('user_profile');
+    Route::get('/logout',    [UserController::class, 'logout'])->name('user.logout');
 });
 
 // Route::post('/submit-form', [\App\Http\Controllers\BuilderController::class,'store'])->name('submit.dynamic.form');

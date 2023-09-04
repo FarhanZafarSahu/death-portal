@@ -7,6 +7,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Northwestern\SysDev\DynamicForms\Storage\Concerns\HandlesDynamicFormsStorage;
+use App\Models\Form;
+use App\Models\FormField;
 
 
 /**
@@ -47,4 +49,33 @@ class DynamicFormsStorageController extends Controller
 
         throw new AuthorizationException('Please implement the authorize method in ' . __CLASS__, '403');
     }
+
+    public function show(Request $request, $id)
+    {
+        $form = Form::where('id', $id)->with('formFields')->first();
+        return view('admin.forms.formdetail', compact('form'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $form = Form::find($id);
+        $update = $form->update([
+            'name'       => $request->name ?? $form->name,
+            'visibility' => $request->visibility ?? $form->visibility,
+            'status'     => $request->status ?? $form->status
+        ]);
+        if($update)
+        {
+            return redirect()->route('admin.forms')->with('success', 'form updated successfully');
+        }
+        
+    }
+
+    public function delete(Request $request, $id)
+    {
+        $form = Form::find($id);
+        $form->delete();
+        return redirect()->back()->with('success', 'form deleted successfully');
+    }
+
 }

@@ -7,10 +7,18 @@
                 </div>
                 <div class="sidebar-menu">
                     <ul class="menu">
-
+                   
 
                         <li class='sidebar-title'>User Panel</li>
-
+                        <p class='sidebar-title'>Profile Progress Bar</p>
+                        @php
+                        $percentage = percentage();
+                        @endphp
+                        <div class="progress" style="margin:0 10px;">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ $percentage }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $percentage }}%;">
+                            </div>
+                        </div>
+                        <p style="margin-left:10px">{{$percentage}}% Complete</p>
 
 
                         <li class="sidebar-item ">
@@ -30,20 +38,14 @@
                             </a>
 
                             <ul class="submenu ">
-
+                                @php
+                                $form = allform();
+                                @endphp
+                                @foreach($form as $forms)
                                 <li>
-                                    <a href="{{ route('user.form', ['id' => 1]) }}">Form 1</a>
+                                    <a href="{{ route('user.form', ['id' => $forms->id]) }}">{{$forms->name}}</a>
                                 </li>
-
-                                <li>
-                                    <a href="{{ route('user.form', ['id' => 2]) }}">Form 2</a>
-                                </li>
-
-                                <li>
-                                    <a href="{{ route('user.form', ['id' => 3]) }}">Form 3</a>
-                                </li>
-
-
+                                @endforeach
                             </ul>
 
                         </li>
