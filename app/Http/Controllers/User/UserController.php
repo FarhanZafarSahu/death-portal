@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Form;
 use App\Models\User;
+use App\Models\Profile;
 use App\Models\FormField;
 use App\Models\UserFormData;
+use App\Mail\AuthenticationMail;
+use Illuminate\Support\Str;
 use Auth;
+use Mail;
 
 class UserController extends Controller
 {
@@ -29,6 +33,12 @@ class UserController extends Controller
         $userformcount = UserFormData::where('user_id', auth()->user()->id)->count();
         // return ($userformcount / $formcount) * 100;
         return view('user.profile');
+    }
+
+    public function contacts(Request $request)
+    {
+        $profile = Profile::where('user_id', auth()->user()->id)->get();
+        return view('user.users.profilelist', compact('profile'));
     }
 
     public function show_all(Request $request)
@@ -55,20 +65,66 @@ class UserController extends Controller
 
     public function submitform(Request $request, $id)
     {
+        
         try {
-            // Exclude the _token key
-            $data = $request->except('_token');
-            $formdata = UserFormData::create([
-                'form_id' => $id,
-                'user_id' => auth()->user()->id,
-                'data'    => json_encode($data)
-            ]);
+                //get form with their fields for check notify field and field name where to send email
+                $form = Form::where('id',$id)->with('formFields')->first();
+                foreach ($form->formFields as $key => $value) {
+                    
+                    if($value->notify == 1)
+                    {
+                        $email = $value->name;
+                        $password = Str::random(8); //genrate random password
+                        $credentioal = [
+                            'email'    => $request->input($email),
+                            'password' => $password
+                        ];
+                        $profile = new Profile();
+                        $register = new User();
+                        $profile->profile($credentioal); //save user profile againt login user
+                        $register->register($credentioal); //save user in user table
+                        if($credentioal)
+                        {
+                            Mail::to($request->input($email))->send(new AuthenticationMail($credentioal));
+                        }
+                    }
+                }
+                // Exclude the _token key
+                $data = $request->except('_token');
+                $formdata = UserFormData::create([
+                    'form_id' => $id,
+                    'user_id' => auth()->user()->id,
+                    'data'    => json_encode($data)
+                ]);
             if($formdata)
             {
-                return redirect()->back()->with('success', 'form submited successfully');
+                return redirect()->back()->with('success', 'form submited successfully and mail is also send check your inbox for login credentioal');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error',$e->getMessage());
         }
+    }
+
+
+    public function primary(Request $register, $id)
+    {
+        $profile = Profile::find($id);
+        $update = $profile->update([
+            'primary' => 1,
+            'secondary'  => 0
+        ]);
+
+        return redirect()->back()->with('success', 'make primary successfully');
+    }
+
+    public function secondary(Request $register, $id)
+    {
+        $profile = Profile::find($id);
+        $update = $profile->update([
+            'primary' => 0,
+            'secondary'  => 1
+        ]);
+
+        return redirect()->back()->with('success', 'make secondary successfully');
     }
 }

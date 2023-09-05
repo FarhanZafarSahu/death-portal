@@ -54,6 +54,9 @@ Route::group(['prefix' => 'user','middleware' => 'auth'], function () {
     Route::post('/form/submit/{id}', [UserController::class, 'submitform'])->name('user.form.submit');
     Route::get('/all',       [UserController::class, 'show_all'])->name('all.user');
     Route::get('/profile',   [UserController::class, 'profile'])->name('user_profile');
+    Route::get('/profile/primary/{id}',   [UserController::class, 'primary'])->name('update.profile.primary');
+    Route::get('/profile/secondary/{id}',   [UserController::class, 'secondary'])->name('update.profile.secondary');
+    Route::get('/contacts',  [UserController::class, 'contacts'])->name('user.contact');
     Route::get('/logout',    [UserController::class, 'logout'])->name('user.logout');
 });
 

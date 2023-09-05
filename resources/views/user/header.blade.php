@@ -20,17 +20,12 @@
                         </div>
                         <p style="margin-left:10px">{{$percentage}}% Complete</p>
 
-
                         <li class="sidebar-item ">
                             <a href="{{route('user.dashboard')}}" class='sidebar-link'>
                                 <i data-feather="home" width="20"></i>
                                 <span>Dashboard</span>
                             </a>
-
                         </li>
-
-
-
                         <li class="sidebar-item  has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i data-feather="triangle" width="20"></i>
@@ -49,7 +44,15 @@
                             </ul>
 
                         </li>
-
+                        
+                        @if(count(auth()->user()->profiles) != 0)
+                            <li class="sidebar-item">
+                                <a href="{{ route('user.contact') }}" class='sidebar-link'>
+                                    <i data-feather="triangle" width="20"></i>
+                                    <span>Profiles</span>
+                                </a>
+                            </li>
+                        @endif
                         <li class="sidebar-item">
                             <a href="{{route('all.user')}}" class='sidebar-link'>
                                 <i data-feather="triangle" width="20"></i>

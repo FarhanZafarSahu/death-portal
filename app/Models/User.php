@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Hash;
 
 class User extends Authenticatable
 {
@@ -54,5 +55,17 @@ class User extends Authenticatable
     public function userFormdata()
     {
         return $this->hasMany(UserFormData::class);
+    }
+
+    public function register($credentioal)
+    {
+        if (preg_match("/^(.+)@/", $credentioal['email'], $matches)) {
+            $name = $matches[1];
+        }
+        $user = User::create([
+            'first_name' => $name,
+            'email'      => $credentioal['email'],
+            'password'   => Hash::make($credentioal['password'])
+        ]);
     }
 }

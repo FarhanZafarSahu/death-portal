@@ -38,7 +38,7 @@ class AdminController extends Controller
 
     public function storeForm(Request $request)
     {
-        // return response()->json(['message'=>$request->all()]);
+        // return response()->json(['message'=>$request['components'][0]['attributes']['notify']]);
         try{
             DB::beginTransaction();
 
@@ -55,8 +55,9 @@ class AdminController extends Controller
                     $fields = FormField::create([
                         'form_id'  => $form->id,
                         'type'     => $field['type'],
-                        'name'     => $field['label'],
-                        'label'     => $field['label'],
+                        'name'     => str_replace(' ', '', $field['label']),//save name without spaces
+                        'label'    => $field['label'],
+                        'notify' => ($field['attributes']['notify'] ?? false) === "true" ? true : false, //check here that if notify in attribute is coming or not
                         'field_id' => $field_id++
                     ]);
                 }
