@@ -24,6 +24,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
+        'profile_id'
     ];
 
     /**
@@ -50,6 +51,11 @@ class User extends Authenticatable
     public function profiles()
     {
         return $this->hasMany(Profile::class);
+    }
+
+    public function primaryprofile()
+    {
+        return $this->belongsTo(Profile::class, 'profile_id', 'id');
     }
 
     public function userFormdata()

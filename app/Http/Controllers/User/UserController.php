@@ -18,6 +18,8 @@ class UserController extends Controller
 {
     public function index()
     {
+        $user = auth()->user()->primaryprofile()->get();
+        // return $user[0]->primary;
         return view('user.dashboard');
     }
 

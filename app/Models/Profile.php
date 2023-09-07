@@ -24,6 +24,11 @@ class Profile extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function primaryuser()
+    {
+        return $this->hasMany(User::class);
+    }
+
     public function profile($credentioal)
     {
         $emailParts = explode('@', $credentioal['email']);

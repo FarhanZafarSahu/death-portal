@@ -18,5 +18,4 @@ function percentage()
     return $percentage;
 }
 
-
 ?>

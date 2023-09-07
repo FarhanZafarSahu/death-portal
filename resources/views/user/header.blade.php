@@ -53,6 +53,20 @@
                                 </a>
                             </li>
                         @endif
+
+                        @php 
+                        $user = auth()->user()->primaryprofile()->get()
+                        @endphp
+                        @foreach($user as $users)
+                        @if($users->primary == 1)
+                        <li class="sidebar-item">
+                            <a href="{{route('profile.form')}}" class='sidebar-link'>
+                                <i data-feather="triangle" width="20"></i>
+                                <span>Profile Form</span>
+                            </a>
+                        </li>
+                        @endif
+                        @endforeach
                         <li class="sidebar-item">
                             <a href="{{route('all.user')}}" class='sidebar-link'>
                                 <i data-feather="triangle" width="20"></i>
@@ -61,7 +75,7 @@
                         </li>
 
                         <li class="sidebar-item">
-                            <a href="#" class='sidebar-link'>
+                            <a href="{{route('user.complete.form')}}" class='sidebar-link'>
                                 <i data-feather="triangle" width="20"></i>
                                 <span>Complete Forms</span>
                             </a>

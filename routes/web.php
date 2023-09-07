@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\ProfileFormController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,8 +57,11 @@ Route::group(['prefix' => 'user','middleware' => 'auth'], function () {
     Route::get('/profile',   [UserController::class, 'profile'])->name('user_profile');
     Route::get('/profile/primary/{id}',   [UserController::class, 'primary'])->name('update.profile.primary');
     Route::get('/profile/secondary/{id}',   [UserController::class, 'secondary'])->name('update.profile.secondary');
-    Route::get('/contacts',  [UserController::class, 'contacts'])->name('user.contact');
-    Route::get('/logout',    [UserController::class, 'logout'])->name('user.logout');
+    Route::get('/profile/form',       [ProfileFormController::class, 'index'])->name('profile.form');
+    Route::get('/profile/form/{id}',  [ProfileFormController::class, 'show'])->name('profile.form.show');
+    Route::get('/complete/form',      [ProfileFormController::class, 'completeform'])->name('user.complete.form');
+    Route::get('/contacts',      [UserController::class, 'contacts'])->name('user.contact');
+    Route::get('/logout',        [UserController::class, 'logout'])->name('user.logout');
 });
 
 // Route::post('/submit-form', [\App\Http\Controllers\BuilderController::class,'store'])->name('submit.dynamic.form');
