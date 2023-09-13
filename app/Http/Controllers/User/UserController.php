@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Form;
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\ProfileUser;
 use App\Models\FormField;
 use App\Models\UserFormData;
 use App\Mail\AuthenticationMail;
@@ -19,7 +20,6 @@ class UserController extends Controller
     public function index()
     {
         $user = auth()->user()->primaryprofile()->get();
-        // return $user[0]->primary;
         return view('user.dashboard');
     }
 
@@ -39,8 +39,7 @@ class UserController extends Controller
 
     public function contacts(Request $request)
     {
-        $profile = Profile::where('user_id', auth()->user()->id)->get();
-        return view('user.users.profilelist', compact('profile'));
+        return view('user.users.profilelist');
     }
 
     public function show_all(Request $request)
@@ -83,9 +82,13 @@ class UserController extends Controller
                         ];
                         $profile = new Profile();
                         $register = new User();
-                        $profile->profile($credentioal); //save user profile againt login user
-                        $register->register($credentioal); //save user in user table
-                        if($credentioal)
+                        $profile_detail = $profile->profile($credentioal);
+                        //add this profile to user in many to many relation
+                        $user = Auth::user();
+                        $user->profile()->attach($profile_detail, ['primary' => false, 'secondary' => false]);
+                        //save user profile against login user
+                        $register->register($credentioal, $profile_detail); //save user in user table
+                        if($profile_detail)
                         {
                             Mail::to($request->input($email))->send(new AuthenticationMail($credentioal));
                         }
@@ -110,7 +113,8 @@ class UserController extends Controller
 
     public function primary(Request $register, $id)
     {
-        $profile = Profile::find($id);
+        $profile = ProfileUser::where('profile_id', $id)
+                   ->where('user_id', auth()->user()->id)->first();
         $update = $profile->update([
             'primary' => 1,
             'secondary'  => 0
@@ -121,7 +125,8 @@ class UserController extends Controller
 
     public function secondary(Request $register, $id)
     {
-        $profile = Profile::find($id);
+        $profile = ProfileUser::where('profile_id', $id)
+                   ->where('user_id', auth()->user()->id)->first();
         $update = $profile->update([
             'primary' => 0,
             'secondary'  => 1

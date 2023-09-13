@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\ProfileFormController;
+use App\Http\Controllers\User\DeathController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,8 @@ Route::group(['prefix' => 'user','middleware' => 'auth'], function () {
     Route::get('/profile/form/{id}',  [ProfileFormController::class, 'show'])->name('profile.form.show');
     Route::get('/complete/form',      [ProfileFormController::class, 'completeform'])->name('user.complete.form');
     Route::get('/contacts',      [UserController::class, 'contacts'])->name('user.contact');
+    Route::get('/register/death',      [DeathController::class, 'create'])->name('death.create');
+    Route::post('/register/death/{id}',      [DeathController::class, 'store'])->name('death.store');
     Route::get('/logout',        [UserController::class, 'logout'])->name('user.logout');
 });
 

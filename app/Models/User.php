@@ -23,6 +23,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
+        'status',
         'password',
         'profile_id'
     ];
@@ -52,6 +53,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Profile::class);
     }
+    public function profile()
+    {
+        return $this->belongsToMany(Profile::class)
+            ->withPivot('primary', 'secondary')
+            ->withTimestamps();
+    }
 
     public function primaryprofile()
     {
@@ -63,15 +70,21 @@ class User extends Authenticatable
         return $this->hasMany(UserFormData::class);
     }
 
-    public function register($credentioal)
+    public function register($credentioal, $profile_detail)
     {
-        if (preg_match("/^(.+)@/", $credentioal['email'], $matches)) {
-            $name = $matches[1];
+        $check = User::where('email', $credentioal['email'])->first();
+        if(!$check)
+        {
+            if (preg_match("/^(.+)@/", $credentioal['email'], $matches)) {
+                $name = $matches[1];
+            }
+            $user = User::create([
+                'first_name' => $name,
+                'email'      => $credentioal['email'],
+                'password'   => Hash::make($credentioal['password']),
+                'profile_id' => $profile_detail
+            ]);
         }
-        $user = User::create([
-            'first_name' => $name,
-            'email'      => $credentioal['email'],
-            'password'   => Hash::make($credentioal['password'])
-        ]);
+        
     }
 }

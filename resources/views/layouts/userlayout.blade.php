@@ -10,13 +10,13 @@
     <link rel="stylesheet" href="{{asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.svg')}}" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
     @include('user.header')
     <div id="main">
-        @include('user.navbar')
+    @include('user.navbar')
         @yield('content')
-    
-        @include('user.footer')
+    @include('user.footer')
     </div>
 
 <script src="{{asset('assets/js/feather-icons/feather.min.js')}}"></script>

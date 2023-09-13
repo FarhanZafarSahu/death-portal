@@ -45,30 +45,25 @@
 
                         </li>
                         
-                        @if(count(auth()->user()->profiles) != 0)
+                        @if(count(auth()->user()->profile) != 0)
                             <li class="sidebar-item">
                                 <a href="{{ route('user.contact') }}" class='sidebar-link'>
                                     <i data-feather="triangle" width="20"></i>
-                                    <span>Profiles</span>
+                                    <span>Contacts</span>
                                 </a>
                             </li>
                         @endif
 
-                        @php 
-                        $user = auth()->user()->primaryprofile()->get()
-                        @endphp
-                        @foreach($user as $users)
-                        @if($users->primary == 1)
+                        
                         <li class="sidebar-item">
                             <a href="{{route('profile.form')}}" class='sidebar-link'>
                                 <i data-feather="triangle" width="20"></i>
                                 <span>Profile Form</span>
                             </a>
                         </li>
-                        @endif
-                        @endforeach
+                        
                         <li class="sidebar-item">
-                            <a href="{{route('all.user')}}" class='sidebar-link'>
+                            <a href="{{route('death.create')}}" class='sidebar-link'>
                                 <i data-feather="triangle" width="20"></i>
                                 <span>Regitser a Death</span>
                             </a>

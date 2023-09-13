@@ -14,6 +14,9 @@
                     {{Session::get('success')}}
                 </div>
         @endif
+        @php
+        $profile = auth()->user()->profile;
+        @endphp
           <table class="table table-striped mb-0">
             <thead>
               <tr>
@@ -43,16 +46,16 @@
                 @isset($profiles->address)
                 <td>{{$profiles->address}}</td>
                 @endisset
-                @if($profiles->primary != 1)
+                @if($profiles['pivot']->primary != 1)
                 <td><a href="{{route('update.profile.primary',['id' => $profiles->id] )}}" class="btn btn-primary" >Make Primary</a></td>
                 @endif
-                @if($profiles->primary == 1)
+                @if($profiles['pivot']->primary == 1)
                 <td><button class="btn btn-primary">Primary</button></td>
                 @endif
-                @if($profiles->secondary != 1)
+                @if($profiles['pivot']->secondary != 1)
                 <td><a href="{{route('update.profile.secondary', ['id' => $profiles->id])}}" class="btn btn-warning" >Make Secendory</a></td>
                 @endif
-                @if($profiles->secondary == 1)
+                @if($profiles['pivot']->secondary == 1)
                 <td><button class="btn btn-warning">Secondary</button></td>
                 @endif
               </tr>

@@ -23,6 +23,12 @@ class Profile extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function users()
+    {
+        return $this->belongsToMany(User::class)
+            ->withPivot('primary', 'secondary')
+            ->withTimestamps();
+    }
 
     public function primaryuser()
     {
@@ -31,12 +37,20 @@ class Profile extends Model
 
     public function profile($credentioal)
     {
-        $emailParts = explode('@', $credentioal['email']);
-        $name = $emailParts[0];
-        $profile = Profile::create([
-            'user_id' => auth()->user()->id,
-            'name'    => $name,
-            'email'   => $credentioal['email']
-        ]);
+        $profile = Profile::where('email', $credentioal['email'])->first();
+
+        if (!$profile) {
+            $emailParts = explode('@', $credentioal['email']);
+            $name = $emailParts[0];
+            $profile = Profile::create([
+                'user_id' => auth()->user()->id,
+                'name'    => $name,
+                'email'   => $credentioal['email']
+            ]);
+            return $profile;
+        } else {
+            return $profile;
+        }
+        
     }
 }
